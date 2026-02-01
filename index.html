@@ -37,8 +37,10 @@
     }
 
     .buttons {
-      display: inline-block;
+      display: flex;
+      justify-content: center;
       position: relative;
+      gap: 10px;
     }
 
     button {
@@ -47,17 +49,21 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin-left: 5px;
+      position: absolute;
+      z-index: 1;
     }
 
     #yes {
       background: #ff4d6d;
       color: white;
+      left: 50%;
+      transform: translateX(-100%);
+      top: 0;
+      position: relative;
     }
 
     #no {
       background: #ccc;
-      position: absolute;
     }
 
     .yay {
@@ -76,6 +82,7 @@
       font-size: 24px;
       color: #ff4d6d;
       animation: floatUp 4s linear infinite;
+      z-index: 0;
     }
 
     @keyframes floatUp {
@@ -100,12 +107,21 @@
     const messageDiv = document.getElementById("message");
     let noClicks = 0;
 
+    // set initial position right next to Yes
+    function setInitialNoPosition(){
+      const yesBtn = document.getElementById('yes');
+      const rect = yesBtn.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      noBtn.style.left = rect.right - cardRect.left + 10 + 'px';
+      noBtn.style.top = rect.top - cardRect.top + 'px';
+    }
+
     function moveNo() {
-      const buttonsDiv = document.querySelector('.buttons');
-      const maxX = buttonsDiv.clientWidth - noBtn.offsetWidth;
-      const x = Math.random() * maxX;
-      noBtn.style.left = x + "px";
-      noBtn.style.top = '0px';
+      const cardRect = card.getBoundingClientRect();
+      const x = Math.random() * (cardRect.width - noBtn.offsetWidth);
+      const y = Math.random() * (cardRect.height - noBtn.offsetHeight);
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
     }
 
     function tapNo() {
@@ -121,10 +137,6 @@
       startHearts();
     }
 
-    // initial placement: right next to Yes button
-    noBtn.style.left = '80px';
-    noBtn.style.top = '0px';
-
     function startHearts(){
       setInterval(() => {
         const heart = document.createElement('div');
@@ -136,6 +148,8 @@
         setTimeout(() => heart.remove(), 4000);
       }, 300);
     }
+
+    setInitialNoPosition();
   </script>
 </body>
 </html>
