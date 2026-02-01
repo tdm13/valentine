@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Valentine?</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+
     body {
       height: 100vh;
       margin: 0;
@@ -12,7 +14,7 @@
       justify-content: center;
       align-items: center;
       background: linear-gradient(135deg, #ffccd5, #ffe6eb);
-      font-family: 'Trebuchet MS', Arial, sans-serif;
+      font-family: 'Sacramento', cursive;
     }
 
     .card {
@@ -22,12 +24,13 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       position: relative;
-      width: 320px;
+      width: 350px;
       height: 220px;
     }
 
     h1 {
       margin-bottom: 30px;
+      font-size: 28px;
     }
 
     button {
@@ -50,8 +53,14 @@
     }
 
     .yay {
-      font-size: 28px;
+      font-size: 32px;
       color: #ff4d6d;
+    }
+
+    #message {
+      margin-top: 15px;
+      color: #ff4d6d;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -59,12 +68,15 @@
   <div class="card" id="card">
     <h1 id="question">Mimi, will you be my Valentine? 💘</h1>
     <button id="yes" onclick="sayYes()">Yes</button>
-    <button id="no" onmouseover="moveNo()">No</button>
+    <button id="no" onclick="tapNo()">No</button>
+    <div id="message"></div>
   </div>
 
   <script>
     const noBtn = document.getElementById("no");
     const card = document.getElementById("card");
+    const messageDiv = document.getElementById("message");
+    let noClicks = 0;
 
     function moveNo() {
       const maxX = card.clientWidth - noBtn.offsetWidth;
@@ -77,12 +89,21 @@
       noBtn.style.top = y + "px";
     }
 
-    function sayYes() {
-      card.innerHTML = "<div class='yay'>YAY!! 💖💖<br><span style='font-size:18px'>Happy Valentine’s Day, Mimi!</span></div>";
+    function tapNo() {
+      noClicks++;
+      moveNo();
+      if(noClicks > 1){
+        messageDiv.textContent = "Saying no is no fun 🙄";
+      }
     }
 
-    // place the no button somewhere at start
-    moveNo();
+    function sayYes() {
+      card.innerHTML = "<div class='yay'>Happy Valentine’s Day, Mimi! 💖</div>";
+    }
+
+    // initial placement for no button
+    noBtn.style.left = '200px';
+    noBtn.style.top = '100px';
   </script>
 </body>
 </html>
