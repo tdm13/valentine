@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Special Message 💌</title>
 
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -20,41 +19,41 @@
 
     .card {
       background: white;
-      padding: 40px 50px;
+      padding: 40px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       text-align: center;
-      width: 350px;
+      width: 360px;
       position: relative;
       overflow: hidden;
     }
 
     h1 {
       font-family: 'Pacifico', cursive;
-      font-size: 32px;
-      margin-bottom: 10px;
       color: #ff4d6d;
+      font-size: 30px;
+      margin-bottom: 10px;
     }
 
     p {
-      font-size: 16px;
       margin-bottom: 30px;
     }
 
     .buttons {
+      position: relative;
+      height: 60px;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 20px;
-      position: relative;
     }
 
     button {
-      padding: 12px 24px;
-      font-size: 16px;
+      padding: 12px 26px;
       border: none;
       border-radius: 25px;
+      font-size: 16px;
       cursor: pointer;
-      transition: transform 0.2s;
     }
 
     #yesBtn {
@@ -65,19 +64,21 @@
     #noBtn {
       background: #e0e0e0;
       color: #333;
-      position: relative;
+      position: absolute;
+      left: 50%;
+      transform: translateX(60px);
     }
 
     #message {
       margin-top: 20px;
       font-size: 14px;
-      color: #555;
       min-height: 18px;
+      color: #555;
     }
 
     .yay {
       font-family: 'Pacifico', cursive;
-      font-size: 30px;
+      font-size: 32px;
       color: #ff4d6d;
       margin-top: 20px;
     }
@@ -89,88 +90,75 @@
     }
 
     @keyframes float {
-      0% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-150px);
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-150px); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-  <div class="card" id="card">
-    <h1>Happy early valentines day!</h1>
-    <p>Will you be my Valentine? 💘</p>
+<div class="card" id="card">
+  <h1>Happy early valentines day!</h1>
+  <p>Mimi, will you be my Valentine? 💘</p>
 
-    <div class="buttons">
-      <button id="yesBtn" onclick="sayYes()">Yes</button>
-      <button id="noBtn" onclick="sayNo()">No</button>
-    </div>
-
-    <div id="message"></div>
-    <div id="yayText"></div>
+  <div class="buttons" id="buttonArea">
+    <button id="yesBtn" onclick="sayYes()">Yes</button>
+    <button id="noBtn" onclick="sayNo()">No</button>
   </div>
 
-  <!-- Hidden Formspree form -->
-  <form id="yesForm" action="https://formspree.io/f/xqelbgkq" method="POST" style="display:none;">
-    <input type="hidden" name="message" value="Mimi said YES 💘">
-  </form>
+  <div id="message"></div>
+  <div id="yayText"></div>
+</div>
 
-  <script>
-    let noClicks = 0;
+<form id="yesForm" action="https://formspree.io/f/xqelbgkq" method="POST" style="display:none;">
+  <input type="hidden" name="message" value="Mimi said YES 💘">
+</form>
 
-    function sayNo() {
-      noClicks++;
+<script>
+  let noClicks = 0;
 
-      const noBtn = document.getElementById("noBtn");
-      const card = document.getElementById("card");
+  function sayNo() {
+    noClicks++;
 
-      const maxX = card.clientWidth - noBtn.offsetWidth;
-      const maxY = card.clientHeight - noBtn.offsetHeight;
+    const noBtn = document.getElementById("noBtn");
+    const area = document.getElementById("buttonArea");
 
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
+    const maxX = area.clientWidth - noBtn.offsetWidth;
+    const maxY = area.clientHeight - noBtn.offsetHeight;
 
-      noBtn.style.position = "absolute";
-      noBtn.style.left = randomX + "px";
-      noBtn.style.top = randomY + "px";
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
 
-      if (noClicks >= 2) {
-        document.getElementById("message").innerText = "Saying no is no fun 🙄";
-      }
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    if (noClicks >= 2) {
+      document.getElementById("message").innerText = "Saying no is no fun 🙄";
     }
+  }
 
-    function sayYes() {
-      document.getElementById("yesForm").submit();
+  function sayYes() {
+    document.getElementById("yesForm").submit();
 
-      document.querySelector(".buttons").style.display = "none";
-      document.getElementById("message").innerText = "";
-      document.getElementById("yayText").innerHTML = '<div class="yay">Yay!! 💖</div>';
+    document.getElementById("buttonArea").style.display = "none";
+    document.getElementById("message").innerText = "";
+    document.getElementById("yayText").innerHTML = '<div class="yay">Yay!! 💖</div>';
 
-      for (let i = 0; i < 20; i++) {
-        createHeart();
-      }
+    for (let i = 0; i < 20; i++) {
+      createHeart();
     }
+  }
 
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💗";
-
-      heart.style.left = Math.random() * 100 + "%";
-      heart.style.bottom = "0px";
-
-      document.getElementById("card").appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 3000);
-    }
-  </script>
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💗";
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.bottom = "0";
+    document.getElementById("card").appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+  }
+</script>
 
 </body>
 </html>
