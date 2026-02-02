@@ -110,55 +110,5 @@
   <div id="yayText"></div>
 </div>
 
-<form id="yesForm" action="https://formspree.io/f/xqelbgkq" method="POST" style="display:none;">
-  <input type="hidden" name="message" value="Mimi said YES 💘">
-</form>
-
-<script>
-  let noClicks = 0;
-
-  function sayNo() {
-    noClicks++;
-
-    const noBtn = document.getElementById("noBtn");
-    const area = document.getElementById("buttonArea");
-
-    const maxX = area.clientWidth - noBtn.offsetWidth;
-    const maxY = area.clientHeight - noBtn.offsetHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-
-    if (noClicks >= 2) {
-      document.getElementById("message").innerText = "Saying no is no fun 🙄";
-    }
-  }
-
-  function sayYes() {
-    document.getElementById("yesForm").submit();
-
-    document.getElementById("buttonArea").style.display = "none";
-    document.getElementById("message").innerText = "";
-    document.getElementById("yayText").innerHTML = '<div class="yay">Yay!! 💖</div>';
-
-    for (let i = 0; i < 20; i++) {
-      createHeart();
-    }
-  }
-
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "💗";
-    heart.style.left = Math.random() * 100 + "%";
-    heart.style.bottom = "0";
-    document.getElementById("card").appendChild(heart);
-    setTimeout(() => heart.remove(), 3000);
-  }
-</script>
-
-</body>
-</html>
+<!-- Hidden Formspree form -->
+<
